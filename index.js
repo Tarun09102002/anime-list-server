@@ -12,6 +12,8 @@ const appcontroller = require('./controller/appcontroller')
 require('dotenv').config()
 const PORT = process.env.PORT || 1200
 
+console.log(process.env)
+
 const store = new MongoDBStore({
     uri: 'mongodb+srv://tarun:tarun123@animelist.kb9t4.mongodb.net/?retryWrites=true&w=majority',
     collection: 'sessions'
@@ -61,7 +63,9 @@ app.use(session({
     }
 }))
 
-
+app.get('/', (req, res) => {
+    res.send('hello world')
+})
 
 app.post('/users/register', appcontroller.register_post)
 
