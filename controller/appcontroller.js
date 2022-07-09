@@ -38,7 +38,9 @@ exports.watchlist_get = async (req, res) => {
 
     for (let watchlistId of watchlist) {
         const res = await getData(watchlistId)
-        animeList.push(res?.data)
+        if (res && res.data) {
+            animeList.push(res?.data)
+        }
     }
     console.log(animeList)
     res.json(animeList)
