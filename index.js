@@ -10,6 +10,7 @@ const MongoDBStore = require('connect-mongodb-session')(session)
 const axios = require('axios')
 const appcontroller = require('./controller/appcontroller')
 require('dotenv').config()
+const PORT = process.env.PORT || 1200
 
 const store = new MongoDBStore({
     uri: 'mongodb+srv://tarun:tarun123@animelist.kb9t4.mongodb.net/?retryWrites=true&w=majority',
@@ -30,7 +31,7 @@ const checkLogin = (req, res, next) => {
 
 mongoose.connect('mongodb+srv://tarun:tarun123@animelist.kb9t4.mongodb.net/?retryWrites=true&w=majority').then(() => {
     console.log('connected to mongodb')
-    app.listen(1200, () => {
+    app.listen(PORT, () => {
         console.log("listening to 1200")
     })
 }).catch((err) => console.log(err))
