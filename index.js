@@ -13,6 +13,7 @@ const axios = require('axios')
 const appcontroller = require('./controller/appcontroller')
 const app = express()
 const User = require('./models/user-model')
+const AnimeModel = require('./models/anime-model')
 require('dotenv').config()
 const PORT = process.env.PORT || 1200
 
@@ -31,9 +32,13 @@ mongoose.connect('mongodb+srv://tarun:tarun123@animelist.kb9t4.mongodb.net/?retr
 }).catch((err) => console.log(err))
 
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Credentials', 'true')
+    next()
+})
+
 app.use(cors({
     origin: process.env.CLIENT_LINK,
-    // methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }))
 app.use(express.json())
@@ -50,22 +55,18 @@ app.use(session({
     store: store,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7,
-        expires: Date.now() + 1000 * 60 * 60 * 24,
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        secure: false,
+        sameSite: "lax",
     }
 }))
-
-app.get('/', (req, res) => {
-    res.send('hello world')
-})
 
 app.post('/users/register', appcontroller.register_post)
 
 app.post('/users/login', appcontroller.login_post)
 
 app.get('/users/login', appcontroller.login_get)
+
+app.get('/users/logout', appcontroller.logout_get)
 
 app.get('/users/watchlist', appcontroller.watchlist_get)
 
